@@ -1,0 +1,2 @@
+id;login;password_hash;name;email;lang_key;last_modified_by
+1;admin;$2a$10$mE.qmcV0mFU5NcKh73TZx.z4ueI/.bDWbj0T1BYyqP481kGGarKLG;Admin;admin@email.com;en;system

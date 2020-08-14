@@ -1,0 +1,98 @@
+databaseChangeLog:
+  -  changeSet:
+       id: 00000000_init_1
+       author: admin
+       changes:
+         -  createTable:
+              tableName: tnc_user
+              columns:
+                - column:
+                     name: id
+                     type: bigint
+                     autoIncrement:  true
+                     constraints:
+                       primaryKey:  true
+                       nullable:  false
+                - column:
+                     name: login
+                     type: varchar(50)
+                     constraints:
+                       unique: true
+                       nullable: false
+                       uniqueConstraintName: tnc_user_ucn_login
+                - column:
+                     name: password_hash
+                     type: varchar(255)
+                     constraints:
+                       nullable: false
+                - column:
+                    name: email
+                    type: varchar(100)
+                    constraints:
+                      unique: true
+                      nullable: true
+                      uniqueConstraintName: tnc_user_ucn_email
+                - column:
+                    name: name
+                    type: varchar(100)
+                - column:
+                    name: lang_key
+                    type: varchar(10)
+                - column:
+                    name: created_date
+                    type: timestamp
+                - column:
+                    name: modified_date
+                    type: timestamp
+                - column:
+                    name: last_modified_by
+                    type: varchar(100)
+         -  createTable:
+              tableName: tnc_role
+              columns:
+                - column:
+                   name: name
+                   type: varchar(100)
+                   constraints:
+                     primaryKey: true
+                     nullable: false
+         -  createTable:
+              tableName: tnc_user_role
+              columns:
+                - column:
+                   name: user_id
+                   type: bigint
+                   constraints:
+                     nullable: false
+                - column:
+                   name: role_name
+                   type: varchar(100)
+                   constraints:
+                     nullable: false
+         - addPrimaryKey:
+             columnNames: user_id, role_name
+             tableName: tnc_user_role
+         - addForeignKeyConstraint:
+             baseColumnNames: role_name
+             baseTableName: tnc_user_role
+             constraintName: fk_role_name
+             referencedColumnNames: name
+             referencedTableName: tnc_role
+         - addForeignKeyConstraint:
+             baseColumnNames: user_id
+             baseTableName: tnc_user_role
+             constraintName: fk_user_id
+             referencedColumnNames: id
+             referencedTableName: tnc_user
+         - loadData:
+             file: db/data/user.csv
+             separator: ;
+             tableName: tnc_user
+         - loadData:
+             file: db/data/role.csv
+             separator: ;
+             tableName: tnc_role
+         - loadData:
+             file: db/data/user_role.csv
+             separator: ;
+             tableName: tnc_user_role
