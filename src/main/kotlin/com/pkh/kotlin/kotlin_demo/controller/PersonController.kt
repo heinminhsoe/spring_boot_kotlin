@@ -20,8 +20,19 @@ class PersonController(
     @PostMapping
     fun createPerson(@Valid @RequestBody personDTO: PersonDTO): ResponseEntity<PersonDTO> {
         val result = personService.save(personDTO)
-        return ResponseEntity.created(URI("/api/person/${result.id}"))
-                .body(result)
+        return ResponseEntity.ok().body(result)
+    }
+
+    @PutMapping
+    fun updatePerson(@Valid @RequestBody personDTO: PersonDTO): ResponseEntity<PersonDTO> {
+        val result = personService.update(personDTO)
+        return ResponseEntity.ok().body(result)
+    }
+
+    @DeleteMapping("/{id}")
+    fun deletePerson(@PathVariable("id") id: Long): ResponseEntity<Unit> {
+        personService.delete(id)
+        return ResponseEntity.noContent().build()
     }
 
     @GetMapping

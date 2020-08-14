@@ -1,0 +1,25 @@
+databaseChangeLog:
+  -  changeSet:
+       id:  20200812_person_1
+       author:  admin
+       changes:
+         -  createTable:
+              tableName:  person
+              columns:
+                -  column:
+                     name:  id
+                     type:  int
+                     autoIncrement:  true
+                     constraints:
+                       primaryKey:  true
+                       nullable:  false
+                -  column:
+                     name:  name
+                     type:  varchar(255)
+                     constraints:
+                       nullable: false
+                -  column:
+                     name:  address
+                     type:  varchar(255)
+                     constraints:
+                       nullable:  false
