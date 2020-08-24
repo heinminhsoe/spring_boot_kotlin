@@ -1,6 +1,7 @@
 package com.pkh.kotlin.kotlin_demo.service.impl
 
 import com.pkh.kotlin.kotlin_demo.dto.PersonDTO
+import com.pkh.kotlin.kotlin_demo.entity.Person
 import com.pkh.kotlin.kotlin_demo.mapper.PersonMapper
 import com.pkh.kotlin.kotlin_demo.repository.PersonRepository
 import com.pkh.kotlin.kotlin_demo.service.PersonService
@@ -21,10 +22,11 @@ class PersonServiceImpl(
         return personMapper.toDto(person)
     }
 
-    override fun update(personDTO: PersonDTO): PersonDTO {
-        var person = personMapper.toEntity(personDTO)
+    override fun update(personDTO: PersonDTO): PersonDTO? {
+        var person: Person? = personRepository.findById(personDTO.id).orElse(null) ?: return null
+
         person = personRepository.save(person)
-        return personMapper.toDto(person)
+        return person?.let { personMapper.toDto(it) }
     }
 
     override fun delete(id: Long) {

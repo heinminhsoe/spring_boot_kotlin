@@ -44,9 +44,9 @@ class UserMapper {
                 }
             }
 
-    private fun rolesFromStrings(roles: MutableSet<String>?): MutableSet<Role> =
+    fun rolesFromStrings(roles: MutableSet<String>?): MutableSet<Role> =
             roles?.mapTo(mutableSetOf()) { Role(it)} ?: mutableSetOf()
 
-    private fun stringsFromRoles(roles: MutableSet<Role>?): MutableSet<String>? =
+    fun stringsFromRoles(roles: MutableSet<Role>?): MutableSet<String>? =
             roles?.mapTo(mutableListOf()) { it.name }?.filterNotNull()?.toMutableSet() ?: mutableSetOf()
 }
