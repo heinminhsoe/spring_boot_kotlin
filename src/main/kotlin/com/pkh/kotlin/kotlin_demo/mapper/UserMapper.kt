@@ -7,20 +7,28 @@ import org.springframework.stereotype.Service
 
 @Service
 class UserMapper {
-    fun toDTO(user: User?): UserDTO? =
+
+    fun toDtos(users: MutableList<User?>): MutableList<UserDTO> =
+            users.mapNotNullTo(mutableListOf()) { toDto(it) }
+
+    fun toEntities(userDTOs: MutableList<UserDTO?>): MutableList<User> =
+            userDTOs.mapNotNullTo(mutableListOf()) { toEntity(it)}
+
+    fun toDto(user: User?): UserDTO? =
             when(user){
                 null -> null
                 else -> {
                     UserDTO(
-                            id = user.id,
-                            login = user.login,
-                            name = user.name,
-                            email = user.email,
-                            langKey = user.langKey,
-                            roles = stringsFromRoles(user.roles)
+                        id = user.id,
+                        login = user.login,
+                        name = user.name,
+                        email = user.email,
+                        langKey = user.langKey,
+                        roles = stringsFromRoles(user.roles)
                     )
                 }
             }
+
     fun toEntity(userDTO: UserDTO?): User? =
             when(userDTO) {
                 null -> null
@@ -35,12 +43,6 @@ class UserMapper {
                     )
                 }
             }
-
-    fun toDTOs(users: MutableList<User?>): MutableList<UserDTO> =
-            users.mapNotNullTo(mutableListOf()) { toDTO(it) }
-
-    fun toEntities(userDTOs: MutableList<UserDTO?>): MutableList<User> =
-            userDTOs.mapNotNullTo(mutableListOf()) { toEntity(it)}
 
     private fun rolesFromStrings(roles: MutableSet<String>?): MutableSet<Role> =
             roles?.mapTo(mutableSetOf()) { Role(it)} ?: mutableSetOf()
