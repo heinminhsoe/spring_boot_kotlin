@@ -3,6 +3,7 @@ package com.pkh.kotlin.kotlin_demo.controller
 import com.pkh.kotlin.kotlin_demo.dto.PersonDTO
 import com.pkh.kotlin.kotlin_demo.entity.Person
 import com.pkh.kotlin.kotlin_demo.service.PersonService
+import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import java.net.URI
@@ -13,6 +14,9 @@ import javax.validation.Valid
 class PersonController(
         private val personService: PersonService
 ){
+
+    private val log = LoggerFactory.getLogger(javaClass)
+
     companion object {
         const val ENTITY_NAME = "Person"
     }
@@ -42,6 +46,7 @@ class PersonController(
 
     @GetMapping("/{id}")
     fun getPersonById(@PathVariable("id") id: Long): ResponseEntity<PersonDTO> {
+        log.info("Request to getPersonById")
         return ResponseEntity.ok().body(personService.findOne(id).get())
     }
 }

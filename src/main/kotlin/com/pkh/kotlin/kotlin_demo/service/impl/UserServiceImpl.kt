@@ -22,7 +22,7 @@ class UserServiceImpl  (
         requireNotNull(userDTO)
         var user = userMapper.toEntity(userDTO)
 
-        user?.passwordHash = passwordEncoder.encode(userDTO.password)
+        user?.password = passwordEncoder.encode(userDTO.password)
 
         user = userRepository.save(user)
         return userMapper.toDto(user)
@@ -37,7 +37,7 @@ class UserServiceImpl  (
         user.name = userDTO.name
         user.email = userDTO.email;
         user.langKey = userDTO.langKey
-        user.roles = userMapper.rolesFromStrings(userDTO.roles)
+        user.authorities = userMapper.rolesFromStrings(userDTO.roles)
 
         user = userRepository.save(user)
         return userMapper.toDto(user)

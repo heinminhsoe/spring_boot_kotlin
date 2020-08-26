@@ -2,6 +2,7 @@ package com.pkh.kotlin.kotlin_demo.controller
 
 import com.pkh.kotlin.kotlin_demo.dto.UserDTO
 import com.pkh.kotlin.kotlin_demo.service.UserService
+import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
@@ -11,8 +12,12 @@ import javax.validation.Valid
 class UserController (
     private val userService: UserService
 ){
+
+    private val log = LoggerFactory.getLogger(javaClass)
+
     @PostMapping
     fun createUser(@Valid @RequestBody userDTO: UserDTO): ResponseEntity<UserDTO> {
+        log.info("createUser")
         val result = userService.save(userDTO)
         return ResponseEntity.ok().body(result)
     }

@@ -24,7 +24,7 @@ class UserMapper {
                         name = user.name,
                         email = user.email,
                         langKey = user.langKey,
-                        roles = stringsFromRoles(user.roles)
+                        roles = stringsFromRoles(user.authorities)
                     )
                 }
             }
@@ -39,7 +39,7 @@ class UserMapper {
                        name = userDTO.name,
                        email = userDTO.email,
                        langKey = userDTO.langKey,
-                       roles = rolesFromStrings(userDTO.roles)
+                       authorities = rolesFromStrings(userDTO.roles)
                     )
                 }
             }

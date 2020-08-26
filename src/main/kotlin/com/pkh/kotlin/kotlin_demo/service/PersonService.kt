@@ -6,7 +6,7 @@ import java.util.*
 interface PersonService {
     fun save(personDTO: PersonDTO): PersonDTO
 
-    fun update(personDTO: PersonDTO): PersonDTO
+    fun update(personDTO: PersonDTO): PersonDTO?
 
     fun delete(id: Long)
 

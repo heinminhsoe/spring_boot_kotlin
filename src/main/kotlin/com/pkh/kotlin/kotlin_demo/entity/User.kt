@@ -19,7 +19,7 @@ data class User(
         var login: String? = null,
 
         @Column(name = "password_hash", length = 255, nullable = false)
-        var passwordHash: String? = null,
+        var password: String? = null,
 
         @Column(name = "name", length = 100, nullable = false)
         var name: String? = null,
@@ -49,7 +49,7 @@ data class User(
         )
         @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
         @BatchSize(size = 20)
-        var roles: MutableSet<Role> = mutableSetOf()
+        var authorities: MutableSet<Role> = mutableSetOf()
 ) {
     override fun toString() = "User {" +
             "id: $id ," +
