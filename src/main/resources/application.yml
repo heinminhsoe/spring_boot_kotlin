@@ -1,13 +1,18 @@
+clientApp:
+  name: pkh
+
+logging:
+  level:
+    ROOT: INFO
+    com.pkh.kotlin.kotlin_demo: INFO
+    liquibase: INFO
+
 server:
   port: 8080
   compression:
     enabled: true
     mime-types: text/html,text/xml,text/plain,text/css, application/javascript, application/json
     min-response-size: 1024
-
-logging:
-  level:
-    liquibase: INFO
 
 spring:
   liquibase:
@@ -17,6 +22,7 @@ spring:
       enabled: false
     livereload:
       enabled: false
+    add-properties: false
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     url: jdbc:mysql://localhost:3306/jhipster?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true

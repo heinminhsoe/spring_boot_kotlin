@@ -30,7 +30,7 @@ class AuthController(
     @PostMapping
     fun authorize(@Valid @RequestBody loginRequest: LoginRequest): ResponseEntity<JWTToken>? {
         log.info("authorize")
-        try {
+
             val authenticationToken = UsernamePasswordAuthenticationToken(loginRequest.username, loginRequest.password)
 
             val authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken)
@@ -43,11 +43,7 @@ class AuthController(
             httpHeaders.add(JWTFilter.AUTHORIZATION_HEADER, "Bearer $jwt")
             log.info("JWT Token -> $jwt")
             return ResponseEntity(JWTToken(jwt), httpHeaders, HttpStatus.OK)
-        } catch (e:Exception) {
-            e.printStackTrace()
-        }
 
-        return null
     }
 
     class LoginRequest(
