@@ -1,7 +1,6 @@
 package com.pkh.kotlin.kotlin_demo.controller.error
 
 import com.pkh.kotlin.kotlin_demo.util.HeaderUtil
-import javax.servlet.http.HttpServletRequest
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.dao.ConcurrencyFailureException
 import org.springframework.http.ResponseEntity
@@ -15,7 +14,8 @@ import org.zalando.problem.Status
 import org.zalando.problem.spring.web.advice.ProblemHandling
 import org.zalando.problem.spring.web.advice.security.SecurityAdviceTrait
 import org.zalando.problem.violations.ConstraintViolationProblem
-import org.zalando.problem.spring.web.advice.AdviceTrait
+import javax.servlet.http.HttpServletRequest
+import  org.zalando.problem.spring.web.advice.AdviceTrait
 
 private const val FIELD_ERRORS_KEY = "fieldErrors"
 private const val MESSAGE_KEY = "message"
@@ -54,11 +54,11 @@ class ExceptionTranslator : ProblemHandling, SecurityAdviceTrait {
                     .with(VIOLATIONS_KEY, problem.violations)
                     .with(MESSAGE_KEY, ERR_VALIDATION)
         } else {
-            builder
-                    .withCause((problem as DefaultProblem).cause)
-                    .withDetail(problem.detail)
-                    .withInstance(problem.instance)
-            problem.parameters.forEach { (key, value) -> builder.with(key, value) }
+            //builder
+            //        .withCause((problem as DefaultProblem).cause)
+            //        .withDetail(problem.detail)
+            //        .withInstance(problem.instance)
+            // problem.parameters.forEach { (key, value) -> builder.with(key, value) }
             if (!problem.parameters.containsKey(MESSAGE_KEY) && problem.status != null) {
                 builder.with(MESSAGE_KEY, "error.http." + problem.status!!.statusCode)
             }
@@ -84,6 +84,23 @@ class ExceptionTranslator : ProblemHandling, SecurityAdviceTrait {
     }
 
     @ExceptionHandler
+    fun handleEmailAlreadyUsedException(ex: com.pkh.kotlin.kotlin_demo.service.EmailAlreadyUsedException, request: NativeWebRequest): ResponseEntity<Problem>? {
+        val problem = EmailAlreadyUsedException()
+        return create(problem, request, HeaderUtil.createFailureAlert(applicationName, true, problem.entityName, problem.errorKey, problem.message))
+    }
+
+    @ExceptionHandler
+    fun handleUsernameAlreadyUsedException(ex: com.pkh.kotlin.kotlin_demo.service.UsernameAlreadyUsedException, request: NativeWebRequest): ResponseEntity<Problem>? {
+        val problem = LoginAlreadyUsedException()
+        return create(problem, request, HeaderUtil.createFailureAlert(applicationName, true, problem.entityName, problem.errorKey, problem.message))
+    }
+
+    @ExceptionHandler
+    fun handleInvalidPasswordException(ex: com.pkh.kotlin.kotlin_demo.service.InvalidPasswordException, request: NativeWebRequest): ResponseEntity<Problem>? {
+        return create(InvalidPasswordException(), request)
+    }
+
+    @ExceptionHandler
     fun handleBadRequestAlertException(
             ex: BadRequestAlertException,
             request: NativeWebRequest
@@ -101,5 +118,7 @@ class ExceptionTranslator : ProblemHandling, SecurityAdviceTrait {
                 .build()
         return create(ex, problem, request)
     }
+
+    override fun isCausalChainsEnabled(): Boolean = false
 }
 

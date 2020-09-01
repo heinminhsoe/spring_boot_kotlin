@@ -10,7 +10,6 @@ class JWTConfigurer(private val tokenProvider: TokenProvider) :
 
     @Throws(Exception::class)
     override fun configure(http: HttpSecurity?) {
-        println("don't come here")
         val customFilter = JWTFilter(tokenProvider)
         http!!.addFilterBefore(customFilter, UsernamePasswordAuthenticationFilter::class.java)
     }

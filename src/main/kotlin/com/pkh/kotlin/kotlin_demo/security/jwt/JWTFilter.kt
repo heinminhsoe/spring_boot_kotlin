@@ -19,8 +19,6 @@ class JWTFilter(private val tokenProvider: TokenProvider) : GenericFilterBean() 
     override fun doFilter(servletRequest: ServletRequest, servletResponse: ServletResponse, filterChain: FilterChain) {
         val httpServletRequest = servletRequest as HttpServletRequest
 
-        println("don't come here 1111")
-
         val jwt = resolveToken(httpServletRequest)
         if (!jwt.isNullOrBlank() && this.tokenProvider.validateToken(jwt)) {
             val authentication = this.tokenProvider.getAuthentication(jwt)
