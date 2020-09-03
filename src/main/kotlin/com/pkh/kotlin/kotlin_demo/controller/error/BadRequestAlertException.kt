@@ -18,8 +18,6 @@ open class BadRequestAlertException(type: URI, defaultMessage: String, val entit
 
     companion object {
 
-        private const val serialVersionUID = 1L
-
         private fun getAlertParameters(entityName: String, errorKey: String) =
             mutableMapOf<String, Any>(
                 "message" to "error.$errorKey",

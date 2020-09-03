@@ -6,10 +6,10 @@ import org.mapstruct.Mapper
 
 @Mapper(componentModel = "spring")
 interface PersonMapper: EntityMapper<PersonDTO, Person> {
-//    @JvmDefault
-//    fun fromId(id: Long) = id?.let {
-//        val person = Person()
-//        person.id = id
-//        person
-//    }
+    @JvmDefault
+    fun fromId(id: Long) = id?.let {
+        val person = Person()
+        person.id = id
+        person
+    }
 }
